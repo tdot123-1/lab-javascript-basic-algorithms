@@ -72,36 +72,45 @@ console.log(etCount.length);
 
 
 // bonus 2
-let phraseToCheck = "A man, a plan, a canal, Panama!";
+let phraseToCheck = "Was it a car or a cat I saw?";
 
-// check for non alpha characters
+// Use function to easily break out of loops
 
 function checkPalindrome(phrase) {
+    // set phrase to all caps to compare chars
     phrase = phrase.toUpperCase();
-    console.log(phrase)
+
+    // get half of phrase to loop over
     const halfOfPhrase = Math.floor(phrase.length / 2);
 
+    // keep track of which chars are being compared
+    // can't use [i], because it will still be incremented on 'continue'
+    let firstChar = 0;
+    let lastChar = phrase.length - 1;
+
+    // iterate over half of phrase
     for (let i = 0; i < halfOfPhrase; i++) {
-        if (!/^[a-zA-Z]+$/.test(phrase[i])) {
+        // check if char is alphabetical, if not, point to next char
+        if (!/^[a-zA-Z]+$/.test(phrase[firstChar])) {
+
+            firstChar++;
             continue;
         }
-        
+        if (!/^[a-zA-Z]+$/.test(phrase[lastChar])) {
 
-        for(let j = 0; j < halfOfPhrase; j++) {
-            console.log(phrase[phrase.length - j - 1 - i]);
-            
-            if (!/^[a-zA-Z]+$/.test(phrase[phrase.length - j - 1 - i])) {
-                continue;
-            }
-            else if (phrase[i] === phrase[phrase.length - j - 1 - i]) {
-                console.log(phrase[i] + " " + phrase[phrase.length - j - 1 - i])
-                break;
-            }
-            else {
-                return false;
-            } 
+            lastChar--;
+            continue
         }
-    }
+        // if both pointed to chars are not equal, return false
+        if (phrase[firstChar] !== phrase[lastChar]) {
+            return false;
+        }
+        // increment counters for which char is being pointed to
+        firstChar++;
+        lastChar--;
+    }    
+
+    // return true after loop finished
     return true;
 }
 
